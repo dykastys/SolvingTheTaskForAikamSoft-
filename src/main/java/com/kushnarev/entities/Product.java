@@ -17,6 +17,9 @@ public class Product {
     @Column(name = "product_price", nullable = false)
     private long productPrice;
 
+    @Transient
+    private long expense;
+
     public Product() { }
 
     public Product(String productName, long productPrice) {
@@ -46,6 +49,14 @@ public class Product {
 
     public void setProductPrice(long productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public long getExpense() {
+        return expense;
+    }
+
+    public void setExpense(long expense) {
+        this.expense = expense;
     }
 
     @Override

@@ -17,6 +17,9 @@ public class Customer {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Transient
+    private long sumOfPurchase;
+
     public Customer() { }
 
     public Customer(String firstName, String lastName) {
@@ -46,6 +49,14 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public long getSumOfPurchase() {
+        return sumOfPurchase;
+    }
+
+    public void setSumOfPurchase(long sumOfPurchase) {
+        this.sumOfPurchase = sumOfPurchase;
     }
 
     @Override
