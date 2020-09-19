@@ -1,5 +1,7 @@
 package com.kushnarev.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -7,6 +9,7 @@ import java.util.Objects;
 @Table(name = "customers")
 public class Customer {
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +20,7 @@ public class Customer {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @JsonIgnore
     @Transient
     private long sumOfPurchase;
 

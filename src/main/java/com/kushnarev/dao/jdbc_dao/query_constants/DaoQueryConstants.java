@@ -34,6 +34,6 @@ public class DaoQueryConstants {
             "select pr.id, product_name, product_price, sum(product_price) expense from products pr " +
                     "left join purchases p on pr.id = p.product_id " +
                     "left join customers c on p.customer_id = c.id " +
-                    "where c.id=1 and (date>='2020-09-14' and date<='2020-09-26') " +
+                    "where c.id=? and (date>=? and date<=?) " +
                     "group by pr.id order by sum(product_price) desc";
 }

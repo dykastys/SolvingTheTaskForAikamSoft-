@@ -1,10 +1,14 @@
 package com.kushnarev.service.request.criteria;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Criteria {
 
+    @JsonIgnore
     private CriteriaType type;
+
     private String lastName;
     private String productName;
     private Integer minTimes;

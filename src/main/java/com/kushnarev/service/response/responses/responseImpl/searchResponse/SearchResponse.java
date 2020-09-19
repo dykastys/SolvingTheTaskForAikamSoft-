@@ -1,16 +1,17 @@
 package com.kushnarev.service.response.responses.responseImpl.searchResponse;
 
 import com.kushnarev.service.response.responses.Response;
+import com.kushnarev.service.response.responses.responseImpl.searchResponse.searchResult.SearchResult;
 
 import java.util.List;
 
 public class SearchResponse implements Response {
     private String type;
-    private List<Result> results;
+    private List<SearchResult> results;
 
     public SearchResponse() { }
 
-    public SearchResponse(String type, List<Result> results) {
+    public SearchResponse(String type, List<SearchResult> results) {
         this.type = type;
         this.results = results;
     }
@@ -23,11 +24,11 @@ public class SearchResponse implements Response {
         this.type = type;
     }
 
-    public List<Result> getResults() {
+    public List<SearchResult> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(List<SearchResult> results) {
         this.results = results;
     }
 }

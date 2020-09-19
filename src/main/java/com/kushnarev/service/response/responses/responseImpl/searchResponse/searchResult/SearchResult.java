@@ -1,11 +1,11 @@
-package com.kushnarev.service.response.responses.responseImpl.searchResponse;
+package com.kushnarev.service.response.responses.responseImpl.searchResponse.searchResult;
 
 import com.kushnarev.entities.Customer;
 import com.kushnarev.service.request.criteria.Criteria;
 
 import java.util.List;
 
-public class Result {
+public class SearchResult {
     private Criteria criteria;
     private List<Customer> results;
 

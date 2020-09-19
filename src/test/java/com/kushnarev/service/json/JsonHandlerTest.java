@@ -3,13 +3,24 @@ package com.kushnarev.service.json;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.kushnarev.entities.Customer;
+import com.kushnarev.service.request.criteria.Criteria;
 import com.kushnarev.service.request.requests.requestImpl.SearchRequest;
 import com.kushnarev.service.request.requests.requestImpl.StatRequest;
+import com.kushnarev.service.response.responses.responseImpl.searchResponse.SearchResponse;
+import com.kushnarev.service.response.responses.responseImpl.searchResponse.searchResult.SearchResult;
+import com.kushnarev.service.response.responses.responseImpl.statResponse.StatResponse;
+import com.kushnarev.service.response.responses.responseImpl.statResponse.responseCustomerAndProduct.ResponseCustomer;
+import com.kushnarev.service.response.responses.responseImpl.statResponse.responseCustomerAndProduct.ResponseProduct;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -47,5 +58,110 @@ public class JsonHandlerTest {
 
         assertThat(stat.getRequestData().getDates().get(0).toString(), is("2020-09-14"));
         assertThat(stat.getRequestData().getDates().get(1).toString(), is("2020-09-26"));
+    }
+
+    @Test
+    public void test_writeSearchJsonToFile() throws IOException {
+        String path = "src/test/java/testResources/testResults/testResult.json";
+
+        Files.deleteIfExists(Paths.get(path));
+
+        SearchResponse response = setUpSearchResponse();
+        JsonHandler.writeJsonToFile(path, response);
+
+        assertThat(Files.size(Paths.get(path)), is(126L));
+    }
+
+    /*5 methods for create SearchResponse*/
+    private SearchResponse setUpSearchResponse() {
+        SearchResponse response = new SearchResponse();
+        response.setType("search");
+        response.setResults(getSearchResultList());
+        return response;
+    }
+
+    private List<SearchResult> getSearchResultList() {
+        List<SearchResult> results = new ArrayList<>();
+        SearchResult result = getSearchResult();
+        results.add(result);
+        return results;
+    }
+
+    private SearchResult getSearchResult() {
+        SearchResult result = new SearchResult();
+        result.setCriteria(getCriteria());
+        result.setResults(getCustomerList());
+        return result;
+    }
+
+    private Criteria getCriteria() {
+        Criteria criteria = new Criteria();
+        criteria.setBadCustomers(1);
+        return criteria;
+    }
+
+    private List<Customer> getCustomerList() {
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Антон", "Петров"));
+        return customers;
+    }
+
+    @Test
+    public void test_writeStatJsonToFile() throws IOException {
+        String path = "src/test/java/testResources/testResults/testResult.json";
+
+        Files.deleteIfExists(Paths.get(path));
+
+        StatResponse response = setUpStatResponse();
+        JsonHandler.writeJsonToFile(path, response);
+
+        assertThat(Files.size(Paths.get(path)), is(182L));
+    }
+
+    /*5 methods for create StatResponse*/
+    private StatResponse setUpStatResponse() {
+        StatResponse response = new StatResponse();
+        response.setType("stat");
+        response.setTotalDays(3);
+        response.setCustomers(getResponseCustomerList());
+        long totalExpense = response.getCustomers().stream()
+                .mapToLong(
+                        x -> x.getPurchases().stream()
+                                .mapToLong(ResponseProduct::getExpenses)
+                                .sum())
+                .sum();
+        response.setTotalExpenses(totalExpense);
+        response.setAvgExpenses((totalExpense*1.0) / response.getCustomers().size());
+        return response;
+    }
+
+    private List<ResponseCustomer> getResponseCustomerList() {
+        List<ResponseCustomer> customers = new ArrayList<>();
+        ResponseCustomer responseCustomer = getResponseCustomer();
+        customers.add(responseCustomer);
+        return customers;
+    }
+
+    private ResponseCustomer getResponseCustomer() {
+        ResponseCustomer responseCustomer = new ResponseCustomer();
+        responseCustomer.setName("Игорь");
+        List<ResponseProduct> purchases = getPurchaseList();
+        responseCustomer.setPurchases(purchases);
+        responseCustomer.setTotalExpenses(purchases.stream().mapToLong(ResponseProduct::getExpenses).sum());
+        return responseCustomer;
+    }
+
+    private List<ResponseProduct> getPurchaseList() {
+        List<ResponseProduct> responseProducts = new ArrayList<>();
+        ResponseProduct product = getResponseProduct();
+        responseProducts.add(product);
+        return responseProducts;
+    }
+
+    private ResponseProduct getResponseProduct() {
+        ResponseProduct product = new ResponseProduct();
+        product.setName("Бумага");
+        product.setExpenses(1010);
+        return product;
     }
 }
