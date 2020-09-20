@@ -6,6 +6,7 @@ import com.kushnarev.dao.jdbc_dao.DaoCustomerImpl;
 import com.kushnarev.dao.jdbc_dao.DaoProductImpl;
 import com.kushnarev.dao.jdbc_dao.worker.JdbcWorker;
 import com.kushnarev.dao.jdbc_dao.worker.JdbcWorkerImpl;
+import com.kushnarev.service.check.ArgsChecker;
 import com.kushnarev.service.json.JsonHandler;
 import com.kushnarev.service.request.requestHandler.RequestHandler;
 import com.kushnarev.service.request.requestHandler.RequestHandlerImpl;
@@ -19,6 +20,8 @@ import java.sql.SQLException;
 public class Start {
     public static void main(String[] args) {
         try {
+            ArgsChecker.checkArgs(args);
+
             JdbcWorker jdbcWorker = JdbcWorkerImpl.getInstance();
             DaoCustomer daoCustomer = new DaoCustomerImpl(jdbcWorker);
             DaoProduct daoProduct = new DaoProductImpl(jdbcWorker);
@@ -37,14 +40,11 @@ public class Start {
 
             Response response = ResponseBuilder.formResponse(daoCustomer, daoProduct, request);
 
-            JsonHandler.writeJsonToFile(args[2], response);
+            JsonHandler.writeResponseToJsonFile(args[2], response);
 
-        } catch (IOException ioExceptionIO) {
-
-        } catch (SQLException sqlException) {
-
-        } catch (IllegalArgumentException illegalArgumentException) {
-
+        } catch (SQLException | IllegalArgumentException | IOException exception) {
+            System.out.println(exception.getClass().getSimpleName());
+            System.out.println(exception.getMessage());
         }
     }
 }

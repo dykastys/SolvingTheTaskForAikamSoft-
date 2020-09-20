@@ -27,7 +27,7 @@ public class Criteria {
     public void setLastName(String lastName) {
         this.lastName = lastName;
         if(type != null) {
-            throw new IllegalArgumentException("json request not right");
+            throw new IllegalArgumentException("incorrect json request - several criteria in json request file!");
         }
         this.type = CriteriaType.LAST_NAME;
     }
@@ -39,7 +39,7 @@ public class Criteria {
     public void setProductName(String productName) {
         this.productName = productName;
         if(type != null) {
-            throw new IllegalArgumentException("json request not right");
+            throw new IllegalArgumentException("incorrect json request - several criteria in json request file!");
         }
         this.type = CriteriaType.PRODUCT_NAME;
     }
@@ -49,6 +49,9 @@ public class Criteria {
     }
 
     public void setMinTimes(Integer minTimes) {
+        if(minTimes < 1) {
+            throw new IllegalArgumentException(String.format("The times of purchases must be positive. Your value - '%d'!", minTimes));
+        }
         this.minTimes = minTimes;
     }
 
@@ -59,7 +62,7 @@ public class Criteria {
     public void setMinExpenses(Long minExpenses) {
         this.minExpenses = minExpenses;
         if(type != null) {
-            throw new IllegalArgumentException("json request not right");
+            throw new IllegalArgumentException("incorrect json request - several criteria in json request file!");
         }
         this.type = CriteriaType.MIN_MAX;
     }
@@ -69,6 +72,9 @@ public class Criteria {
     }
 
     public void setMaxExpenses(Long maxExpenses) {
+        if(maxExpenses < minExpenses) {
+            throw new IllegalArgumentException("the max expenses can't be less than the min expenses!");
+        }
         this.maxExpenses = maxExpenses;
     }
 
@@ -77,9 +83,12 @@ public class Criteria {
     }
 
     public void setBadCustomers(Integer badCustomers) {
+        if(badCustomers < 1) {
+            throw new IllegalArgumentException(String.format("quantity of bad customers must be positive. Your value - '%d'!", badCustomers));
+        }
         this.badCustomers = badCustomers;
         if(type != null) {
-            throw new IllegalArgumentException("json request not right");
+            throw new IllegalArgumentException("incorrect json request - several criteria in json request file!");
         }
         this.type = CriteriaType.BAD_CUSTOMERS;
     }

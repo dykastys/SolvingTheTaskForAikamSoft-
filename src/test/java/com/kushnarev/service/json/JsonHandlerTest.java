@@ -2,7 +2,6 @@ package com.kushnarev.service.json;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.kushnarev.entities.Customer;
 import com.kushnarev.service.request.criteria.Criteria;
 import com.kushnarev.service.request.requests.requestImpl.SearchRequest;
@@ -45,7 +44,7 @@ public class JsonHandlerTest {
         assertThat(JsonHandler.parseJsonFromFile(testFile), notNullValue());
     }
 
-    @Test(expected = UnrecognizedPropertyException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void test_fromJsonNode_notRightObject() throws IOException {
         JsonNode jsonNode = JsonHandler.parseJsonFromFile(testFile);
         JsonHandler.fromJsonNode(jsonNode, SearchRequest.class);
@@ -62,14 +61,19 @@ public class JsonHandlerTest {
 
     @Test
     public void test_writeSearchJsonToFile() throws IOException {
-        String path = "src/test/java/testResources/testResults/testResult.json";
+        String outDirectory = JsonHandler.outDirectory;
+        JsonHandler.outDirectory = "src/test/java/testResources/testResults/";
 
-        Files.deleteIfExists(Paths.get(path));
+        String fileName = "testResult.json";
+
+        Files.deleteIfExists(Paths.get(JsonHandler.outDirectory + fileName));
 
         SearchResponse response = setUpSearchResponse();
-        JsonHandler.writeJsonToFile(path, response);
+        JsonHandler.writeResponseToJsonFile(fileName, response);
 
-        assertThat(Files.size(Paths.get(path)), is(126L));
+        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(126L));
+
+        JsonHandler.outDirectory = outDirectory;
     }
 
     /*5 methods for create SearchResponse*/
@@ -108,14 +112,19 @@ public class JsonHandlerTest {
 
     @Test
     public void test_writeStatJsonToFile() throws IOException {
-        String path = "src/test/java/testResources/testResults/testResult.json";
+        String outDirectory = JsonHandler.outDirectory;
+        JsonHandler.outDirectory = "src/test/java/testResources/testResults/";
 
-        Files.deleteIfExists(Paths.get(path));
+        String fileName = "testResult.json";
+
+        Files.deleteIfExists(Paths.get(fileName));
 
         StatResponse response = setUpStatResponse();
-        JsonHandler.writeJsonToFile(path, response);
+        JsonHandler.writeResponseToJsonFile(fileName, response);
 
-        assertThat(Files.size(Paths.get(path)), is(182L));
+        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(182L));
+
+        JsonHandler.outDirectory = outDirectory;
     }
 
     /*5 methods for create StatResponse*/

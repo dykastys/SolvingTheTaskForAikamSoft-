@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class JsonHandler {
 
+    static String outDirectory = "JsonResult/";
+
     private static final ObjectMapper objectMapper = defaultObjectMapper();
 
     private static ObjectMapper defaultObjectMapper() {
@@ -27,10 +29,20 @@ public class JsonHandler {
     }
 
     public static <T> T fromJsonNode(JsonNode node, Class<T> clazz) throws JsonProcessingException {
-        return objectMapper.treeToValue(node, clazz);
+        try {
+            return objectMapper.treeToValue(node, clazz);
+        }catch (JsonProcessingException jsonProcessingException) {
+            try {
+                throw new IllegalArgumentException(jsonProcessingException.getMessage()
+                        .substring(0, jsonProcessingException.getMessage().indexOf("!")));
+            } catch (StringIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException("query type not correspond with query json file");
+            }
+        }
     }
 
-    public static void writeJsonToFile(String outputFileName, Response response) throws IOException {
-        objectMapper.writeValue(new File(outputFileName), response);
+    public static void writeResponseToJsonFile(String outputFileName, Response response) throws IOException {
+        objectMapper.writeValue(new File(outDirectory + outputFileName), response);
     }
 }

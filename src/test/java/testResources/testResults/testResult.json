@@ -1,1 +1,1 @@
-{"type":"stat","totalDays":3,"customers":[{"name":"Игорь","purchases":[{"name":"Бумага","expenses":1010}],"totalExpenses":1010}],"totalExpenses":1010,"avgExpenses":1010.0}
+{"type":"search","results":[{"criteria":{"badCustomers":1},"results":[{"firstName":"Антон","lastName":"Петров"}]}]}

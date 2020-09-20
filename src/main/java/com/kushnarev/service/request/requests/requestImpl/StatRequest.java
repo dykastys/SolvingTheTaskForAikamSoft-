@@ -15,7 +15,7 @@ public class StatRequest implements Request {
     @Override
     public RequestData getRequestData() {
         if(startDate.getTime() > endDate.getTime()) {
-            throw new IllegalArgumentException("dates are incorrect in 'stat request'");
+            throw new IllegalArgumentException("end Date cannot be less than start Date in file 'stat json query'");
         }
         return new RequestData(startDate, endDate);
     }
