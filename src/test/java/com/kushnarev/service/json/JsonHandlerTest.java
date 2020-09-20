@@ -106,7 +106,7 @@ public class JsonHandlerTest {
 
     private List<Customer> getCustomerList() {
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("Антон", "Петров"));
+        customers.add(new Customer("Andrey", "Petrov"));
         return customers;
     }
 
