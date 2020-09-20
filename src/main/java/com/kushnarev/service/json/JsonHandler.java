@@ -28,7 +28,7 @@ public class JsonHandler {
         return objectMapper.readTree(file);
     }
 
-    public static <T> T fromJsonNode(JsonNode node, Class<T> clazz) throws JsonProcessingException {
+    public static <T> T fromJsonNode(JsonNode node, Class<T> clazz) {
         try {
             return objectMapper.treeToValue(node, clazz);
         }catch (JsonProcessingException jsonProcessingException) {
@@ -36,7 +36,6 @@ public class JsonHandler {
                 throw new IllegalArgumentException(jsonProcessingException.getMessage()
                         .substring(0, jsonProcessingException.getMessage().indexOf("!")));
             } catch (StringIndexOutOfBoundsException e) {
-                e.printStackTrace();
                 throw new IllegalArgumentException("query type not correspond with query json file");
             }
         }

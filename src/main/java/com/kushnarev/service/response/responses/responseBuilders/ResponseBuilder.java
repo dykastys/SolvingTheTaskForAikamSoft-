@@ -13,6 +13,7 @@ import com.kushnarev.service.request.requests.requestImpl.StatRequest;
 import com.kushnarev.service.response.responses.Response;
 import com.kushnarev.service.response.responses.responseBuilders.responseHandlers.SearchResponseBuilder;
 import com.kushnarev.service.response.responses.responseBuilders.responseHandlers.StatResponseBuilder;
+import com.kushnarev.service.response.responses.responseImpl.errorResponse.ErrorResponse;
 import com.kushnarev.service.response.responses.responseImpl.searchResponse.searchResult.SearchResult;
 import com.kushnarev.service.response.responses.responseImpl.searchResponse.SearchResponse;
 import com.kushnarev.service.response.responses.responseImpl.statResponse.responseCustomerAndProduct.ResponseCustomer;
@@ -41,7 +42,10 @@ public class ResponseBuilder {
             double avgExpense = (totalExpense*1.0) / customers.size();
             return new StatResponse("stat", days, customers, totalExpense, avgExpense);
         }
-
         throw new IllegalArgumentException("unknown request type");
+    }
+
+    public static Response formErrorResponse(String exceptionType, String message) {
+        return new ErrorResponse(exceptionType, message);
     }
 }

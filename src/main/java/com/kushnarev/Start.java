@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class Start {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             ArgsChecker.checkArgs(args);
 
@@ -43,8 +43,14 @@ public class Start {
             JsonHandler.writeResponseToJsonFile(args[2], response);
 
         } catch (SQLException | IllegalArgumentException | IOException exception) {
-            System.out.println(exception.getClass().getSimpleName());
-            System.out.println(exception.getMessage());
+            Response response = ResponseBuilder.formErrorResponse(
+                    exception.getClass().getSimpleName(),
+                    exception.getMessage());
+            try {
+                JsonHandler.writeResponseToJsonFile(args[2], response);
+            } catch (IOException | ArrayIndexOutOfBoundsException ignore1) {
+                JsonHandler.writeResponseToJsonFile("error.json", response);
+            }
         }
     }
 }

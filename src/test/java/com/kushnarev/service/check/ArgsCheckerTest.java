@@ -84,10 +84,4 @@ public class ArgsCheckerTest {
             assertThat(exception.getMessage(), is(String.format("incorrect path or name of third argument - '%s'", arg3)));
         }
     }
-
-    @Test
-    public void test_ok() throws IOException {
-        ArgsChecker.inDirectory = "src/test/java/testResources/";
-        ArgsChecker.checkArgs(arg1, arg2, arg3);
-    }
 }
