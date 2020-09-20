@@ -71,7 +71,7 @@ public class JsonHandlerTest {
         SearchResponse response = setUpSearchResponse();
         JsonHandler.writeResponseToJsonFile(fileName, response);
 
-        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(126L));
+        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(116L));
 
         JsonHandler.outDirectory = outDirectory;
     }
