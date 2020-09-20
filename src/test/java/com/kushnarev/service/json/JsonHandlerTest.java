@@ -122,7 +122,7 @@ public class JsonHandlerTest {
         StatResponse response = setUpStatResponse();
         JsonHandler.writeResponseToJsonFile(fileName, response);
 
-        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(182L));
+        assertThat(Files.size(Paths.get(JsonHandler.outDirectory + fileName)), is(168L));
 
         JsonHandler.outDirectory = outDirectory;
     }
@@ -153,7 +153,7 @@ public class JsonHandlerTest {
 
     private ResponseCustomer getResponseCustomer() {
         ResponseCustomer responseCustomer = new ResponseCustomer();
-        responseCustomer.setName("Игорь");
+        responseCustomer.setName("Mat");
         List<ResponseProduct> purchases = getPurchaseList();
         responseCustomer.setPurchases(purchases);
         responseCustomer.setTotalExpenses(purchases.stream().mapToLong(ResponseProduct::getExpenses).sum());
@@ -169,7 +169,7 @@ public class JsonHandlerTest {
 
     private ResponseProduct getResponseProduct() {
         ResponseProduct product = new ResponseProduct();
-        product.setName("Бумага");
+        product.setName("Staff");
         product.setExpenses(1010);
         return product;
     }
