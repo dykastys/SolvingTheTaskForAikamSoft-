@@ -1,0 +1,9 @@
+{
+  "criterias": [
+    {"badCustomers": 2},
+    {"minExpenses": 100, "maxExpenses": 250},
+    {"lastName": "Зарипов"},
+    {"productName": "Обувь", "minTimes": 3},
+    {"minExpenses": 0, "maxExpenses": 1000}
+  ]
+}
